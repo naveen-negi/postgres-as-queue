@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-status-column-to-archive-jobs
+      author: knav
+      changes:
+        - addColumn:
+            tableName: archive_jobs
+            columns:
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
