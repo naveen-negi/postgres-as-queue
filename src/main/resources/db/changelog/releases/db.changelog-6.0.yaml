@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_table_job_queue
+      author: your_name
+      changes:
+        - createTable:
+            tableName: job_queue
+            columns:
+              - column:
+                  name: prev_job_status
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: curr_job_status
+                  type: VARCHAR(255)
+                  defaultValue: 'archive_pending'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: job_status_time
+                  type: TIMESTAMP
+                  defaultValue: "now()"
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: job_queue
+            baseColumnNames: prev_job_status, curr_job_status
+            constraintName: fk_job_queue_job_transitions
+            referencedTableName: job_transitions
+            referencedColumnNames: prev_job_status, curr_job_status
+            onDelete: CASCADE

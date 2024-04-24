@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_table_job_transitions
+      author: knav
+      changes:
+        - createTable:
+            tableName: job_transitions
+            columns:
+              - column:
+                  name: prev_job_status
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: curr_job_status
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: job_transitions
+            columnNames: prev_job_status, curr_job_status

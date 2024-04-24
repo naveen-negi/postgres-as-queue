@@ -39,3 +39,7 @@ postgres-1  | 2024-04-23 17:40:34.981 GMT [232] LOG:  execute S_1: COMMIT
 
 ```
 
+
+Now write a liquibase migration for creating job_queue table (in yaml format). This table should have following columns
+prev_job_status (not null), curr_job_status, not null defaults to archive_pending, also add a forgein key constraint on 
+

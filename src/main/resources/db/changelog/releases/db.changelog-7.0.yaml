@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_columns_to_job_queue
+      author: knav
+      changes:
+        - addColumn:
+            tableName: job_queue
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: metadata
+                  type: JSON
+                  constraints:
+                    nullable: false
