@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: include-sql-file-001
+      author: knav
+      changes:
+        - sqlFile:
+            path: update_job_table.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+
+  - changeSet:
+      id: create-job-queue-view-update-trigger
+      author: knav
+      changes:
+        - sql:
+            dbms: "postgresql"
+            sql: |
+              CREATE TRIGGER job_queue_view_update
+              INSTEAD OF UPDATE ON job_queue_view
+              FOR EACH ROW
+              EXECUTE FUNCTION handle_job_update();

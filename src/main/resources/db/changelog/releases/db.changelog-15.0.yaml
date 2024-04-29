@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-default-values-20240401
+      author: knav
+      changes:
+        - sql:
+            dbms: "postgresql"  # Specify dbms if the SQL is specific to one database type
+            sql: |
+              ALTER TABLE job_queue
+              ALTER COLUMN prev_job_status SET DEFAULT 'archive_pending';
+              ALTER TABLE job_queue
+              ALTER COLUMN curr_job_status SET DEFAULT 'archive_pending';

@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-failure-transitions-job-transitions
+      author: your_username
+      changes:
+        - insert:
+            tableName: job_transitions
+            columns:
+              - column:
+                  name: prev_job_status
+                  value: "archive_processing"
+              - column:
+                  name: curr_job_status
+                  value: "archive_failed"
+        - insert:
+            tableName: job_transitions
+            columns:
+              - column:
+                  name: prev_job_status
+                  value: "archive_failed"
+              - column:
+                  name: curr_job_status
+                  value: "archive_pending"

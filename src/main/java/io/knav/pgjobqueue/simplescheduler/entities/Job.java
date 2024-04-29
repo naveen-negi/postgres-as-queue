@@ -1,4 +1,4 @@
-package io.knav.pgjobqueue.entities;
+package io.knav.pgjobqueue.simplescheduler.entities;
 
 import java.util.UUID;
 

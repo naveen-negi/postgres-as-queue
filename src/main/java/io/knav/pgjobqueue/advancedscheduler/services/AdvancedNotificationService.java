@@ -1,19 +1,19 @@
-package io.knav.pgjobqueue.services;
+package io.knav.pgjobqueue.advancedscheduler.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasync.sql.db.postgresql.PostgreSQLConnection;
 import com.github.jasync.sql.db.postgresql.util.URLParser;
-import io.knav.pgjobqueue.entities.Job;
-import io.knav.pgjobqueue.repositories.JobsRepository;
+import io.knav.pgjobqueue.advancedscheduler.entities.JobNg;
+import io.knav.pgjobqueue.advancedscheduler.repositories.AdvancedJobRepository;
+import io.knav.pgjobqueue.simplescheduler.entities.Job;
+import io.knav.pgjobqueue.simplescheduler.repositories.JobsRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.Charset;
-
-import static kotlin.jvm.internal.Reflection.typeOf;
 
 /*
 On each notification I should try fetching the row with skipped lock build with a notification
@@ -52,20 +52,21 @@ WHERE status = 'processing' AND last_updated < NOW() - INTERVAL '1 hour';
  */
 
 @Service
-public class NotificationService {
+public class AdvancedNotificationService {
 
     private final PostgreSQLConnection connection;
-    private final JobService jobService;
-    private final JobsRepository jobsRepository;
+    private final AdvancedJobService jobService;
+    private final AdvancedJobRepository jobsRepository;
 
     @Autowired
-    public NotificationService(
+    public AdvancedNotificationService(
             @Value("${spring.datasource.url}") String url,
             @Value("${spring.datasource.username}") String username,
             @Value("${spring.datasource.password}") String password,
-            JobService jobService,
-            JobsRepository jobsRepository
+            AdvancedJobService jobService,
+            AdvancedJobRepository jobsRepository
             ) {
+
         this.jobService = jobService;
         this.jobsRepository = jobsRepository;
 
@@ -92,9 +93,11 @@ public class NotificationService {
                 System.out.println("Received notification on channel " + notification.getChannel() + ": " + notification.getPayload());
                 System.out.println("**************************************************");
                 try {
-                    var job = om.readValue(notification.getPayload(), Job.class);
-                    Job lockedJob = jobsRepository.fetchAndLockJobForProcessing(job.id());
-                    jobService.processJob(lockedJob);
+                    var job = om.readValue(notification.getPayload(), JobNg.class);
+                    var lockedJob = jobsRepository.fetchAndLockJobForProcessing(job.id());
+                    if(lockedJob.isProcessable()) {
+                        jobService.processJob(lockedJob);
+                    }
 
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);

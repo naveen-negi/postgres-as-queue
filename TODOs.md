@@ -4,6 +4,7 @@
 3. State management in database
 4. Multiple workers
 5. Update job status to failed on failure
+6. On receiving notification make sure that only archive_pending jobs are processed.
 
 
 ## Questions

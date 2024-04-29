@@ -1,6 +1,6 @@
-package io.knav.pgjobqueue.repositories;
+package io.knav.pgjobqueue.simplescheduler.repositories;
 
-import io.knav.pgjobqueue.entities.Job;
+import io.knav.pgjobqueue.simplescheduler.entities.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -54,11 +54,6 @@ public class JobsRepository {
 
         // Get IDs from the fetched jobs
         List<UUID> jobIds = jobs.stream().map(Job::id).toList();
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
 
         // Update statuses if jobs are found
         if (!jobIds.isEmpty()) {

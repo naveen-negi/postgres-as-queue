@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_view_rule
+      author: knav
+      changes:
+        - sql:
+            sql: >
+              CREATE OR REPLACE RULE job_queue_view_update AS
+              ON UPDATE TO job_queue_view
+              WHERE OLD.id = NEW.id AND NEW.curr_job_status IS DISTINCT FROM OLD.curr_job_status
+              DO INSTEAD
+              UPDATE job_queue
+              SET prev_job_status = OLD.curr_job_status,
+              curr_job_status = NEW.curr_job_status,
+              metadata = NEW.metadata
+              WHERE id = OLD.id;

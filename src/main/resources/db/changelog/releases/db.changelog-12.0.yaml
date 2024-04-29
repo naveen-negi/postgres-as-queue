@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop_view_rule
+      author: knav
+      changes:
+        - sql:
+            sql: >
+              DROP RULE job_queue_view_update ON job_queue_view;

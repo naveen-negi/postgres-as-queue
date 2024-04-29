@@ -1,6 +1,6 @@
-package io.knav.pgjobqueue.services;
+package io.knav.pgjobqueue.simplescheduler.services;
 
-import io.knav.pgjobqueue.entities.Job;
+import io.knav.pgjobqueue.simplescheduler.entities.Job;
 
 import java.util.Random;
 

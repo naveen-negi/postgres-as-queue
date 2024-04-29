@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop_trigger
+      author: knav
+      changes:
+        - sql:
+            comment: "Drop existing trigger to prevent conflicts"
+            sql: |
+              DROP TRIGGER IF EXISTS job_queue_view_update ON job_queue_view;
+            splitStatements: true
+            stripComments: true
+
+  - changeSet:
+      id: update-function-for-lease-expire
+      author: knav
+      changes:
+        - sqlFile:
+            path: update_job_table_002.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+            stripComments: true
+
+  - changeSet:
+      id: update-job-queue-view-update-trigger
+      author: knav
+      changes:
+        - sql:
+            dbms: "postgresql"
+            sql: |
+              CREATE TRIGGER job_queue_view_update
+              INSTEAD OF UPDATE ON job_queue_view
+              FOR EACH ROW
+              EXECUTE FUNCTION handle_job_update();

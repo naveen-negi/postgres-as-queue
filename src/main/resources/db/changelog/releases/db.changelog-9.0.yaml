@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_view
+      author: knav
+      changes:
+        - sql:
+            sql: >
+              CREATE OR REPLACE VIEW job_queue_view AS
+              SELECT id, curr_job_status, metadata
+              FROM job_queue;

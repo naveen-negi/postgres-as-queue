@@ -1,6 +1,6 @@
 package io.knav.pgjobqueue.controller;
 
-import io.knav.pgjobqueue.entities.Job;
+import io.knav.pgjobqueue.simplescheduler.entities.Job;
 
 import java.util.UUID;
 

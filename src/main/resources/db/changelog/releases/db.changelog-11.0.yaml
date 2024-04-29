@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-job-transitions-20240425
+      author: your_username
+      changes:
+        - insert:
+            tableName: job_transitions
+            columns:
+              - column:
+                  name: prev_job_status
+                  value: "archive_pending"
+              - column:
+                  name: curr_job_status
+                  value: "archive_pending"
+        - insert:
+            tableName: job_transitions
+            columns:
+              - column:
+                  name: prev_job_status
+                  value: "archive_pending"
+              - column:
+                  name: curr_job_status
+                  value: "archive_processing"
+        - insert:
+            tableName: job_transitions
+            columns:
+              - column:
+                  name: prev_job_status
+                  value: "archive_processing"
+              - column:
+                  name: curr_job_status
+                  value: "archive_completed"
+        - insert:
+            tableName: job_transitions
+            columns:
+              - column:
+                  name: prev_job_status
+                  value: "archive_completed"
+              - column:
+                  name: curr_job_status
+                  value: "job_ready_for_deletion"

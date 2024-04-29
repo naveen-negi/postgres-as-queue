@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-lease-expire-column-20240425
+      author: your_username
+      changes:
+        - addColumn:
+            tableName: job_queue
+            columns:
+              - column:
+                  name: lease_expire
+                  type: timestamp
+                  remarks: "Timestamp until which the task is considered locked"

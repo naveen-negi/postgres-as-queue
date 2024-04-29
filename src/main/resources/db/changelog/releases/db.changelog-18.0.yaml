@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_partial_index_on_job_queue
+      author: your_name
+      changes:
+        - sql:
+            sql: CREATE INDEX idx_job_queue_archive_pending ON archive_jobs(status) WHERE status = 'active';

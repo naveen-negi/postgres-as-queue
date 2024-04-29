@@ -1,7 +1,7 @@
 package io.knav.pgjobqueue.controller;
 
-import io.knav.pgjobqueue.entities.Job;
-import io.knav.pgjobqueue.repositories.JobsRepository;
+import io.knav.pgjobqueue.simplescheduler.entities.Job;
+import io.knav.pgjobqueue.simplescheduler.repositories.JobsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

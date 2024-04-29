@@ -1,23 +1,23 @@
-package io.knav.pgjobqueue.services;
+package io.knav.pgjobqueue.advancedscheduler.services;
 
-import io.knav.pgjobqueue.entities.Job;
-import io.knav.pgjobqueue.repositories.JobsRepository;
+import io.knav.pgjobqueue.advancedscheduler.entities.JobNg;
+import io.knav.pgjobqueue.advancedscheduler.entities.Metadata;
+import io.knav.pgjobqueue.advancedscheduler.repositories.AdvancedJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalTime;
 import java.util.UUID;
 
 @Component
-public class JobScheduler {
+public class AdvancedJobScheduler {
 
-    private final JobsRepository jobsRepository;
-    private final JobService jobService;
+    private final AdvancedJobRepository jobsRepository;
+    private final AdvancedJobService jobService;
 
     @Autowired
-    public JobScheduler(JobsRepository jobsRepository,
-                        JobService jobService) {
+    public AdvancedJobScheduler(AdvancedJobRepository jobsRepository,
+                                AdvancedJobService jobService) {
 
         this.jobsRepository = jobsRepository;
         this.jobService = jobService;
@@ -28,7 +28,7 @@ public class JobScheduler {
         // Logic to add a row to the database
         System.out.println("Adding a row to the database every minute.");
         // Assume a service that handles the database operation
-        jobsRepository.addJob(new Job(UUID.randomUUID(), "a new Job " + LocalTime.now().toString(), "active"));
+        jobsRepository.addJob(new JobNg(UUID.randomUUID(), new Metadata(UUID.randomUUID().toString()), "archive_pending"));
     }
 
     @Scheduled(cron = "0/10 * * * * ?")
@@ -37,5 +37,6 @@ public class JobScheduler {
         System.out.println("Polling for Jobs");
         var jobs = jobsRepository.fetchJobs();
         jobs.forEach(jobService::processJob);
+
     }
 }
